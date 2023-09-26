@@ -11,6 +11,7 @@ const CardComp = ({children}) => {
 
 const styles = StyleSheet.create({
     card: {
+        backgroundColor: 'lightgrey',
         width: '80%',
         margin: 12,
         borderWidth: 1,

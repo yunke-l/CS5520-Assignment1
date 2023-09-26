@@ -1,13 +1,7 @@
 import React, {useState} from 'react';
 import {Text, TextInput, StyleSheet} from 'react-native';
 
-const InputComp = ({label, value, onChangeText, validateFunction, errorMessage}) => {
-    const [isValid, setIsValid] = useState(true);
-
-    const handleTextChange = (text) => {
-        onChangeText(text);
-        setIsValid(validateFunction(text));
-    };
+const InputComp = ({label, value, onChangeText, error}) => {
 
     return (
         <>
@@ -15,9 +9,9 @@ const InputComp = ({label, value, onChangeText, validateFunction, errorMessage})
             <TextInput
                 style={styles.input}
                 value={value}
-                onChangeText={handleTextChange}
+                onChangeText={onChangeText}
             />
-            {!isValid && <Text style={styles.error}>{errorMessage}</Text>}
+            {error && <Text style={styles.error}>{error}</Text>}
         </>
     );
 
