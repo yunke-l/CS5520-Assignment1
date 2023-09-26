@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import { View } from "react-native";
+import { Text } from "react-native";
+import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 
 const StartingScreen = () => {
@@ -10,7 +11,8 @@ const StartingScreen = () => {
     };
 
     return (
-        <View>
+        <CardComp>
+            <Text>Welcome</Text>
             <InputComp
                 label="Email"
                 value={email}
@@ -18,7 +20,7 @@ const StartingScreen = () => {
                 validateFunction={isEmailvalid}
                 errorMessage="Please enter a valid email"
             />
-        </View>
+        </CardComp>
     );
 }
 
