@@ -1,9 +1,9 @@
 import React, {useState} from "react";
-import { Text } from "react-native";
+import { Text, Button } from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 
-const StartingScreen = () => {
+const StartingScreen = ({ onStart }) => {
     // initialize user data
     const initializeData = { name:'', email:'', phone:''};
     const [userData, setUserData] = useState(initializeData);
@@ -12,6 +12,8 @@ const StartingScreen = () => {
     const initializeError = { nameError:'', emailError:'', phoneError:''};
     const [error, setError] = useState(initializeError);
 
+    // initialize checkbox state
+    const [isChecked, setIsChecked] = useState(false);
 
     const validateUserInput = () => {
         // initialize isValid to true
@@ -47,6 +49,16 @@ const StartingScreen = () => {
     };
 
 
+    const handleReset = () => {
+        // reset user data and error messages
+        setUserData(initializeData);
+        setError(initializeError);
+    };
+    
+
+
+
+
     return (
         <CardComp>
             <Text>Welcome</Text>
@@ -71,6 +83,8 @@ const StartingScreen = () => {
                 onChangeText={text => setUserData({...userData, phone:text})}
                 error={error.phoneError}
             />
+
+            <Button title="Start" onPress={onStart} /> 
 
         </CardComp>
     );
