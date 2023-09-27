@@ -82,14 +82,14 @@ const StartingScreen = ({ onStart, onReset }) => {
             />
 
             <InputComp
-                label="Email"
+                label="Email address"
                 value={userData.email}
                 onChangeText={text => setUserData({...userData, email:text})}
                 error={error.emailError}
             />
 
             <InputComp
-                label="Phone"
+                label="Phone number"
                 value={userData.phone}
                 onChangeText={text => setUserData({...userData, phone:text})}
                 error={error.phoneError}

@@ -33,7 +33,7 @@ export default function App() {
         hasConfirmed ? (
           <GameScreen />
         ) : (
-          <ConfirmScreen onConfirm={handleConfirm} />
+          <ConfirmScreen onConfirm={handleConfirm} userData={userInput} onGoBack={() => setIsValid(false)} />
         )
       ) : (
         <StartingScreen onStart={handleStart} />
