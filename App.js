@@ -36,7 +36,7 @@ export default function App() {
           <ConfirmScreen onConfirm={handleConfirm} userData={userInput} onGoBack={() => setIsValid(false)} />
         )
       ) : (
-        <StartingScreen onStart={handleStart} />
+        <StartingScreen onStart={handleStart} userData={userInput} onReset={() => setUserInput(intializeInput)} />
       )}
     </View>
   );

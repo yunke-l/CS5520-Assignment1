@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, {useCallback, useState} from "react";
 import { Text, Button, View } from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 import CheckBox from "../components/CheckBox";
 
-const StartingScreen = ({ onStart, onReset }) => {
+const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone:''} }) => {
     // initialize user data
     const initializeData = { name:'', email:'', phone:''};
-    const [userData, setUserData] = useState(initializeData);
+    const [userInput, setUserInput] = useState(userData);
 
     // initialize error messages
     const initializeError = { nameError:'', emailError:'', phoneError:''};
@@ -24,20 +24,20 @@ const StartingScreen = ({ onStart, onReset }) => {
         const newError = { nameError:'', emailError:'', phoneError:''};
 
         // name is invalid if it is less than 2 characters or non-numerical
-        if ( userData.name.length < 2 || !isNaN(userData.name)) {
+        if ( userInput.name.length < 2 || !isNaN(userInput.name)) {
             newError.nameError = 'Please enter a valid name';
             isValid = false;
         }
 
         // email is invalid if it is not in email format
         const emailRegex = /^[\w\.-]+@[\w\.-]+\.\w+$/;
-        if ( !emailRegex.test(userData.email) ) {
+        if ( !emailRegex.test(userInput.email) ) {
             newError.emailError = 'Please enter a valid email';
             isValid = false;
         }
 
         // phone is invalid if it is not 10 digits
-        if ( userData.phone.length !== 10 || isNaN(userData.phone)) {
+        if ( userInput.phone.length !== 10 || isNaN(userInput.phone)) {
             newError.phoneError = 'Please enter a valid phone number';
             isValid = false;
         }
@@ -53,16 +53,16 @@ const StartingScreen = ({ onStart, onReset }) => {
         // validate user input
         if ( validateUserInput() ) {
             // if valid, call onStart
-            onStart(userData);
+            onStart(userInput);
         }
     }
 
-    const handleReset = () => {
+    const handleReset = useCallback(() => {
         // reset user data and error messages and checkbox
-        setUserData(initializeData);
+        setUserInput(initializeData);
         setError(initializeError);
         setIsChecked(false);
-    };
+    }, [initializeData, initializeError]);
     
     const handleCheckboxChange = (newValue) => {
         setIsChecked(newValue);
@@ -76,22 +76,22 @@ const StartingScreen = ({ onStart, onReset }) => {
 
             <InputComp
                 label="Name"
-                value={userData.name}
-                onChangeText={text => setUserData({...userData, name:text})}
+                value={userInput.name}
+                onChangeText={text => setUserInput({...userInput, name:text})}
                 error={error.nameError}
             />
 
             <InputComp
                 label="Email address"
-                value={userData.email}
-                onChangeText={text => setUserData({...userData, email:text})}
+                value={userInput.email}
+                onChangeText={text => setUserInput({...userInput, email:text})}
                 error={error.emailError}
             />
 
             <InputComp
                 label="Phone number"
-                value={userData.phone}
-                onChangeText={text => setUserData({...userData, phone:text})}
+                value={userInput.phone}
+                onChangeText={text => setUserInput({...userInput, phone:text})}
                 error={error.phoneError}
             />
 
