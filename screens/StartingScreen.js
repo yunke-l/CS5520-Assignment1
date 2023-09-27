@@ -1,9 +1,10 @@
 import React, {useState} from "react";
-import { Text, Button } from "react-native";
+import { Text, Button, View } from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
+import CheckBox from "../components/CheckBox";
 
-const StartingScreen = ({ onStart }) => {
+const StartingScreen = ({ onStart, onReset }) => {
     // initialize user data
     const initializeData = { name:'', email:'', phone:''};
     const [userData, setUserData] = useState(initializeData);
@@ -36,7 +37,7 @@ const StartingScreen = ({ onStart }) => {
         }
 
         // phone is invalid if it is not 10 digits
-        if ( userData.phone.length !== 10 ) {
+        if ( userData.phone.length !== 10 || isNaN(userData.phone)) {
             newError.phoneError = 'Please enter a valid phone number';
             isValid = false;
         }
@@ -48,14 +49,24 @@ const StartingScreen = ({ onStart }) => {
         return isValid;
     };
 
+    const handleStart = () => {
+        // validate user input
+        if ( validateUserInput() ) {
+            // if valid, call onStart
+            onStart(userData);
+        }
+    }
 
     const handleReset = () => {
-        // reset user data and error messages
+        // reset user data and error messages and checkbox
         setUserData(initializeData);
         setError(initializeError);
+        setIsChecked(false);
     };
     
-
+    const handleCheckboxChange = (newValue) => {
+        setIsChecked(newValue);
+    };
 
 
 
@@ -84,8 +95,16 @@ const StartingScreen = ({ onStart }) => {
                 error={error.phoneError}
             />
 
-            <Button title="Start" onPress={onStart} /> 
+            <CheckBox
+                label="I'm not a robot"
+                checked={isChecked}
+                onChange={handleCheckboxChange}
+            />
 
+            <View>
+                <Button title="Reset" onPress={handleReset} />      
+                <Button title="Start" onPress={handleStart} disabled={!isChecked} />
+            </View>
         </CardComp>
     );
 }
