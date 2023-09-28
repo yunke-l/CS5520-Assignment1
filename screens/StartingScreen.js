@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from "react";
-import { Text, Button, View } from "react-native";
+import { Text, Button, View, StyleSheet } from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 import CheckBox from "../components/CheckBox";
@@ -49,13 +49,14 @@ const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone
         return isValid;
     };
 
-    const handleStart = () => {
+    const handleStart = useCallback(() => {
         // validate user input
         if ( validateUserInput() ) {
             // if valid, call onStart
             onStart(userInput);
         }
     }
+    , [onStart, userInput]);
 
     const handleReset = useCallback(() => {
         // reset user data and error messages and checkbox
@@ -71,6 +72,7 @@ const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone
 
 
     return (
+        <View style={styles.container}>
         <CardComp>
             <Text>Welcome</Text>
 
@@ -106,7 +108,18 @@ const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone
                 <Button title="Start" onPress={handleStart} disabled={!isChecked} />
             </View>
         </CardComp>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        // flex: 1,
+        // flexDirection: 'column',
+        // alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
 
 export default StartingScreen;
