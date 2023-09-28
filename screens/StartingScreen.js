@@ -1,10 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { Text, Button, View, StyleSheet } from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 import CheckBox from "../components/CheckBox";
 
-const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone:''} }) => {
+const StartingScreen = ({ userData, onStart }) => {
     // initialize user data
     const initializeData = { name:'', email:'', phone:''};
     const [userInput, setUserInput] = useState(userData);
@@ -49,65 +49,69 @@ const StartingScreen = ({ onStart, onReset, userData = {name:'', email:'', phone
         return isValid;
     };
 
-    const handleStart = useCallback(() => {
+    // store user input for backtracking
+    useEffect(() => {
+        if (userData) {
+            setUserInput(userData || initializeData);
+        }
+    }
+    , []);
+
+    // handle start button press
+    const handleStart = () => {
         // validate user input
         if ( validateUserInput() ) {
             // if valid, call onStart
             onStart(userInput);
         }
-    }
-    , [onStart, userInput]);
+    };
 
-    const handleReset = useCallback(() => {
+    // handle reset button press
+    const handleReset = () => {
         // reset user data and error messages and checkbox
         setUserInput(initializeData);
         setError(initializeError);
         setIsChecked(false);
-    }, [initializeData, initializeError]);
-    
-    const handleCheckboxChange = (newValue) => {
-        setIsChecked(newValue);
     };
-
 
 
     return (
         <View style={styles.container}>
-        <CardComp>
-            <Text>Welcome</Text>
+            <CardComp>
+                <Text>Welcome</Text>
 
-            <InputComp
-                label="Name"
-                value={userInput.name}
-                onChangeText={text => setUserInput({...userInput, name:text})}
-                error={error.nameError}
-            />
+                <InputComp
+                    label="Name"
+                    value={userInput.name}
+                    onChangeText={text => setUserInput({...userInput, name:text})}
+                    error={error.nameError}
+                />
 
-            <InputComp
-                label="Email address"
-                value={userInput.email}
-                onChangeText={text => setUserInput({...userInput, email:text})}
-                error={error.emailError}
-            />
+                <InputComp
+                    label="Email address"
+                    value={userInput.email}
+                    onChangeText={text => setUserInput({...userInput, email:text})}
+                    error={error.emailError}
+                />
 
-            <InputComp
-                label="Phone number"
-                value={userInput.phone}
-                onChangeText={text => setUserInput({...userInput, phone:text})}
-                error={error.phoneError}
-            />
+                <InputComp
+                    label="Phone number"
+                    value={userInput.phone}
+                    onChangeText={text => setUserInput({...userInput, phone:text})}
+                    error={error.phoneError}
+                />
 
-            <CheckBox
-                label="I'm not a robot"
-                checked={isChecked}
-                onChange={handleCheckboxChange}
-            />
+                <CheckBox
+                    label="I'm not a robot"
+                    checked={isChecked}
+                    onChange={setIsChecked}
+                />
 
-            <View>
-                <Button title="Reset" onPress={handleReset} />      
-                <Button title="Start" onPress={handleStart} disabled={!isChecked} />
-            </View>
-        </CardComp>
+                <View>
+                    <Button title="Reset" onPress={handleReset} />      
+                    <Button title="Start" onPress={handleStart} disabled={!isChecked} />
+                </View>
+            </CardComp>
         </View>
     );
 }

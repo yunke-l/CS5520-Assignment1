@@ -10,34 +10,19 @@ export default function App() {
   // initialize state variables
   const intializeInput = { name:'', email:'', phone:''};
   const [userInput, setUserInput] = useState(intializeInput);
-  const [isValid, setIsValid] = useState(false);
-  const [hasConfirmed, setHasConfirmed] = useState(false);
+  const [screen, setScreen] = useState('start');
   
-  const handleStart = (data) => {
-    setUserInput(data);
-    setIsValid(true);
-  };
-
-
-  const handleConfirm = () => {
-    setHasConfirmed(true);
+  const logout = () => {
+    setUserInput(intializeInput);
+    setScreen('start');
   }
-
-
-
-
 
   return (
     <View>
-      {isValid ? (
-        hasConfirmed ? (
-          <GameScreen />
-        ) : (
-          <ConfirmScreen onConfirm={handleConfirm} userData={userInput} onGoBack={() => setIsValid(false)} />
-        )
-      ) : (
-        <StartingScreen onStart={handleStart} userData={userInput} onReset={() => setUserInput(intializeInput)} />
-      )}
+      {screen === 'start' ? <StartingScreen userData={userInput} onStart={(data) => {setUserInput(data); setScreen('confirm')}} /> 
+      : (screen === 'confirm' ? <ConfirmScreen userData={userInput} setScreen={setScreen} />
+        : <GameScreen onLogout={logout} />)}
+
     </View>
   );
 }

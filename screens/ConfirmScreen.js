@@ -1,19 +1,21 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Modal } from "react-native";
 import CardComp from "../components/CardComp";
 
-const ConfirmScreen = ({ userData: {name, email, phone}, onGoBack, onConfirm }) => {
+const ConfirmScreen = ({userData, setScreen}) => {
 
   return (
     <View>
-      <CardComp>
-        <Text>Hello {name}</Text>
-        <Text>Please confirm the following information is correct by pressing the continue button</Text>
-        <Text>{email}</Text>
-        <Text>{phone}</Text>
-        <Button title="Go back" onPress={onGoBack} />
-        <Button title="Continue" onPress={onConfirm} />
-      </CardComp>
+      <Modal animationType="none">
+        <CardComp>
+          <Text>Hello {userData.name}</Text>
+          <Text>Please confirm the following information is correct by pressing the continue button</Text>
+          <Text>{userData.email}</Text>
+          <Text>{userData.phone}</Text>
+          <Button title="Go back" onPress={() => setScreen("start")} />
+          <Button title="Continue" onPress={() => setScreen("game")} />
+        </CardComp>
+      </Modal>
     </View>
   );
 };
