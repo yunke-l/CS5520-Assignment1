@@ -3,7 +3,7 @@ import { View, Text, Button, Image} from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 
-const GameScreen = (onLogout) => {
+const GameScreen = ({onLogout}) => {
 
   const [numberToGuess, setNumberToGuess] = useState(
     Math.floor(Math.random() * 11) + 10 // Generates a random number between 10 and 20
@@ -56,7 +56,7 @@ const GameScreen = (onLogout) => {
     <View>
       <Button title="Logout" onPress={onLogout} />
       <Text>Guess a number between 10 and 20</Text>
-
+      
       <CardComp>
       {gameState === 'start' ? (
         <View>
