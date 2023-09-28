@@ -2,6 +2,8 @@ import React, { useState} from "react";
 import { View, Text, Button, Image} from "react-native";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
+import StyleHelper from "../StyleHelper";
+import LinearGradientComp from "../components/LinearGradient";
 
 const GameScreen = ({onLogout}) => {
 
@@ -53,46 +55,50 @@ const GameScreen = ({onLogout}) => {
   };
 
   return (
-    <View>
-      <Button title="Logout" onPress={onLogout} />
-      <Text>Guess a number between 10 and 20</Text>
+    <LinearGradientComp>
+    <View style={StyleHelper.container}>
+      <Button color="blue" title="Logout" onPress={onLogout} />
+      <Text style={StyleHelper.header}>Guess a number between 10 and 20</Text>
       
       <CardComp>
       {gameState === 'start' ? (
-        <View>
+        <>
 
-        <Text>Enter a Number</Text>
+        <Text style={StyleHelper.gameMessage}>Enter a Number</Text>
           <InputComp
             value={userGuess}
             onChangeText={(text) => setUserGuess(text)}
           />
-          <Button title="Confirm" onPress={handleGuess} />
-          <Button title="Reset" onPress={handleReset} />
-
-        </View>
+          <View style={StyleHelper.buttonBox}>
+            <Button color="red" title="Reset" onPress={handleReset} />
+            <Button color="blue" title="Confirm" onPress={handleGuess} />
+          </View>
+        </>
       ) : gameState === 'won' ? (
-        <View>
-          <Text>You guessed correct! Number of guesses: {guessCount}</Text>
+        <>
+          <Text style={StyleHelper.gameMessage}>You guessed correct!</Text>
+          <Text style={StyleHelper.gameMessage}>Number of guesses: {guessCount}</Text>
           <Image
             source={{ uri: `https://picsum.photos/id/${numberToGuess}/100/100` }}
-            style={{ width: 100, height: 100 }}
+            style={{ width: 100, height: 100, marginVertical: 20 }}
           />
-          <Button title="New Game" onPress={handleNewGame} />
-        </View>
+          <Button color="blue" title="New Game" onPress={handleNewGame} />
+        </>
       ) : (
-        <View>
-          <Text>You did not guess correct!</Text>
+        <>
+          <Text style={StyleHelper.gameMessage}>You did not guess correct!</Text>
           <Image
             source={require('../assets/unamused-emoji.jpeg')}
-            style={{ width: 100, height: 100 }}
+            style={{ width: 100, height: 100, marginVertical: 20 }}
           />
           <Text>{hint}</Text>
-          <Button title="Try Again" onPress={handleTryAgain} />
-        </View>
+          <Button color="blue" title="Try Again" onPress={handleTryAgain} />
+        </>
       )}
 
       </CardComp>
     </View>
+    </LinearGradientComp>
   );
 };
 

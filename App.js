@@ -18,7 +18,7 @@ export default function App() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       {screen === 'start' ? <StartingScreen userData={userInput} onStart={(data) => {setUserInput(data); setScreen('confirm')}} /> 
       : (screen === 'confirm' ? <ConfirmScreen userData={userInput} setScreen={setScreen} />
         : <GameScreen onLogout={logout} />)}

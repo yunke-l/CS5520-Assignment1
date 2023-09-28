@@ -1,8 +1,10 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Text, Button, View, StyleSheet } from "react-native";
+import StyleHelper from "../StyleHelper";
 import CardComp from "../components/CardComp";
 import InputComp from "../components/InputComp";
 import CheckBox from "../components/CheckBox";
+import LinearGradientComp from "../components/LinearGradient";
 
 const StartingScreen = ({ userData, onStart }) => {
     // initialize user data
@@ -76,9 +78,11 @@ const StartingScreen = ({ userData, onStart }) => {
 
 
     return (
-        <View style={styles.container}>
+        <LinearGradientComp>
+        <View style={StyleHelper.container}>
+            <Text style={StyleHelper.header}>Welcome</Text>
             <CardComp>
-                <Text>Welcome</Text>
+                
 
                 <InputComp
                     label="Name"
@@ -107,23 +111,16 @@ const StartingScreen = ({ userData, onStart }) => {
                     onChange={setIsChecked}
                 />
 
-                <View>
-                    <Button title="Reset" onPress={handleReset} />      
-                    <Button title="Start" onPress={handleStart} disabled={!isChecked} />
+                <View style={StyleHelper.buttonBox}>
+                    <Button color={"red"} title="Reset" onPress={handleReset} />      
+                    <Button color={"blue"} title="Start" onPress={handleStart} disabled={!isChecked} />
                 </View>
             </CardComp>
         </View>
+        </LinearGradientComp>
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        // flex: 1,
-        // flexDirection: 'column',
-        // alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 
 export default StartingScreen;
