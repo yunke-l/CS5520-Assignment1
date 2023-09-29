@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import StartingScreen from './screens/StartingScreen';
 import ConfirmScreen from './screens/ConfirmScreen';
 import GameScreen from './screens/GameScreen';
-
+import StyleHelper from './StyleHelper';
 
 export default function App() {
   // initialize state variables
@@ -18,7 +18,7 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={StyleHelper.container}>
       {screen === 'start' ? <StartingScreen userData={userInput} onStart={(data) => {setUserInput(data); setScreen('confirm')}} /> 
       : (screen === 'confirm' ? <ConfirmScreen userData={userInput} setScreen={setScreen} />
         : <GameScreen onLogout={logout} />)}
@@ -27,11 +27,11 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: '#fff',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//   },
+// });
