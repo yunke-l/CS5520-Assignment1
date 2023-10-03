@@ -1,37 +1,22 @@
-import React, {useState} from 'react';
-import {Text, TextInput, StyleSheet} from 'react-native';
+import React from 'react';
+import {Text, TextInput, View} from 'react-native';
+import StyleHelper from '../StyleHelper';
 
-const InputComp = ({label, value, onChangeText, validateFunction, errorMessage}) => {
-    const [isValid, setIsValid] = useState(true);
-
-    const handleTextChange = (text) => {
-        onChangeText(text);
-        setIsValid(validateFunction(text));
-    };
+const InputComp = ({label, value, onChangeText, error}) => {
 
     return (
-        <>
-            <Text>{label}</Text>
+        <View style={StyleHelper.inputContainer}>
+            <Text style={StyleHelper.inputText}>{label}</Text>
             <TextInput
-                style={styles.input}
+                style={StyleHelper.input}
                 value={value}
-                onChangeText={handleTextChange}
+                onChangeText={onChangeText}
             />
-            {!isValid && <Text style={styles.error}>{errorMessage}</Text>}
-        </>
+            {error && <Text style={StyleHelper.inputError}>{error}</Text>}
+        </View>
     );
 
 };
 
-const styles = StyleSheet.create({
-    input: {
-        width: '80%',
-        margin: 12,
-        borderWidth: 1,
-    },
-    error: {
-        color: 'red',
-    },
-});
 
 export default InputComp;
